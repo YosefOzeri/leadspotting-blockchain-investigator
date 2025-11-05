@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 
 import { DEFAULTS } from '@/lib/constants';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { fetchAddressTxs } from '../lib/api';
 import { GraphNodeType, useAppStore } from '../lib/store';
 
@@ -14,7 +15,6 @@ const SHORT_LABEL_PREFIX_LENGTH = 3;
 const SHORT_LABEL_PREFIX_START_INDEX = 0;
 const SHORT_LABEL_SUFFIX_LENGTH = 2;
 
-const DEFAULT_TX_COUNT = 0;
 const INITIAL_TX_COUNT = 0;
 const GRAPH_LAYOUT_DELAY_MS = 300;
 
@@ -81,7 +81,7 @@ export default function GraphView() {
 
     try {
       const data = await fetchAddressTxs(address, limit, offset);
-      addLog(`Loaded ${data.txs?.length || DEFAULT_TX_COUNT} transactions for ${address}`);
+      addLog(`Loaded ${data.txs?.length || DEFAULTS.TX_COUNT} transactions for ${address}`);
       setSelectedDetails({
         n_tx: data.n_tx,
         total_received: data.total_received,
@@ -162,7 +162,8 @@ export default function GraphView() {
   return (
     <div className="relative h-full" style={{ display: 'flex', flexDirection: 'column' }}>
       {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50 text-white z-10">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 text-white z-10 space-y-2">
+          <LoadingSpinner />
           <p>Loading graph...</p>
         </div>
       )}
@@ -180,14 +181,14 @@ export default function GraphView() {
           {
             selector: 'node',
             style: {
-              'background-color': (ele: any) => (ele.data('type') === GraphNodeType.TX ? '#34d399' : '#60a5fa'),
+              'background-color': (ele: any) => (ele.data('type') === 'tx' ? '#34d399' : '#60a5fa'),
               label: 'data(label)',
               color: '#fff',
               'font-size': '8px',
               'text-valign': 'center',
               'text-outline-color': '#000',
               'text-outline-width': 1,
-              cursor: (ele: any) => (ele.data('type') === GraphNodeType.ADDRESS ? 'pointer' : 'default'),
+              cursor: (ele: any) => (ele.data('type') === 'address' ? 'pointer' : 'default'),
             },
           },
           {
