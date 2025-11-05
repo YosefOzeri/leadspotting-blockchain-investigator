@@ -1,22 +1,55 @@
-import Image from 'next/image';
+'use client';
 
-import styles from './page.module.css';
+import AddressDetails from '@/components/AddressDetails';
+import GraphView from '../components/GraphView';
+import { LogPanel } from '../components/LogPanel';
+import SearchAddress from '../components/SearchAddress';
 
-export default function Home() {
+export default function Page() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image className={styles.logo} src="/next.svg" alt="Next.js logo" width={100} height={20} priority />
-        <div className={styles.intro}>
-          <h1>Non-opinionated TypeScript starter for Next.js</h1>
-          <p>Highly scalable foundation with the best DX. All the tools you need to build your Next project.</p>
-        </div>
-        <div className={styles.ctas}>
-          <a className={styles.primary} href="https://joaopedro.dev" target="_blank">
-            Created by João Pedro
-          </a>
-        </div>
-      </main>
-    </div>
+    <main
+      style={{
+        background: '#000',
+        color: 'white',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+        padding: '16px',
+      }}
+    >
+      <SearchAddress />
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '2fr 1fr',
+          gap: '16px',
+          height: '60vh',
+          resize: 'vertical',
+          overflow: 'auto',
+          border: '1px solid #333',
+          borderRadius: '8px',
+          padding: '8px',
+        }}
+      >
+        <GraphView />
+        <AddressDetails />
+      </div>
+
+      <div
+        style={{
+          overflow: 'auto',
+          minHeight: '120px',
+          maxHeight: '50vh',
+          border: '1px solid #333',
+          borderRadius: '8px',
+          padding: '4px',
+          resize: 'none',
+        }}
+      >
+        <LogPanel />
+      </div>
+    </main>
   );
 }
