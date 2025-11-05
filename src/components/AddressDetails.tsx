@@ -1,6 +1,5 @@
 'use client';
 
-import LoadingSpinner from '../components/LoadingSpinner';
 import { useAppStore } from '../lib/store';
 
 const SATOSHIS_PER_BTC = 100_000_000;
@@ -22,7 +21,6 @@ export default function AddressDetails() {
 
       {loading && selectedNode && (
         <div className="flex flex-col items-center space-y-2">
-          <LoadingSpinner />
           <p className="text-blue-400 animate-pulse">Loading data...</p>
         </div>
       )}

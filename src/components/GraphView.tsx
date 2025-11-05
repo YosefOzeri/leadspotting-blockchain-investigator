@@ -6,7 +6,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 
 import { DEFAULTS } from '@/lib/constants';
-import LoadingSpinner from '../components/LoadingSpinner';
 import { fetchAddressTxs } from '../lib/api';
 import { GraphNodeType, useAppStore } from '../lib/store';
 
@@ -163,7 +162,6 @@ export default function GraphView() {
     <div className="relative h-full" style={{ display: 'flex', flexDirection: 'column' }}>
       {loading && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 text-white z-10 space-y-2">
-          <LoadingSpinner />
           <p>Loading graph...</p>
         </div>
       )}
