@@ -1,3 +1,5 @@
+'use client';
+
 import { create } from 'zustand';
 
 export enum GraphNodeType {
@@ -5,10 +7,18 @@ export enum GraphNodeType {
   TX = 'tx',
 }
 
+export type LegacyNodeType = 'address' | 'tx';
+
 export interface GraphNode {
   id: string;
   label: string;
-  type: GraphNodeType;
+  type: GraphNodeType | LegacyNodeType;
+}
+
+export interface GraphEdge {
+  id: string;
+  source: string;
+  target: string;
 }
 
 export interface AddressDetailsData {
@@ -38,7 +48,7 @@ interface AppState {
   setError: (e: string | null) => void;
 
   expandAddress: ((address: string, limit?: number, offset?: number) => Promise<void>) | null;
-  setExpandAddress: (fn: any) => void;
+  setExpandAddress: (fn: ((address: string, limit?: number, offset?: number) => Promise<void>) | null) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
