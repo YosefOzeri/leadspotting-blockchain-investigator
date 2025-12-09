@@ -99,7 +99,12 @@ export default function GraphView() {
         tx.inputs.forEach((inp: any, j: number) => {
           const from = inp.prev_out?.addr ?? `unknown:${j}`;
           if (!nodes.find((n) => n.id === from)) {
-            newNodes.push({ id: from, label: from, type: GraphNodeType.ADDRESS });
+            newNodes.push({
+              id: from,
+              label: from,
+              type: GraphNodeType.ADDRESS,
+              classes: 'addressNode',
+            });
           }
           newEdges.push({ id: `e:${from}->${txId}:${i}:${j}`, source: from, target: txId });
         });
@@ -107,7 +112,12 @@ export default function GraphView() {
         tx.out.forEach((o: any, k: number) => {
           const to = o.addr ?? `unknownout:${k}`;
           if (!nodes.find((n) => n.id === to)) {
-            newNodes.push({ id: to, label: to, type: GraphNodeType.ADDRESS });
+            newNodes.push({
+              id: to,
+              label: to,
+              type: GraphNodeType.ADDRESS,
+              classes: 'addressNode',
+            });
           }
           newEdges.push({ id: `e:${txId}->${to}:${i}:${k}`, source: txId, target: to });
         });
@@ -137,7 +147,14 @@ export default function GraphView() {
   useEffect(() => {
     if (!currentAddress) return;
     addLog(`Searching for root address: ${currentAddress}`);
-    setNodes([{ id: currentAddress, label: currentAddress, type: GraphNodeType.ADDRESS }]);
+    setNodes([
+      {
+        id: currentAddress,
+        label: currentAddress,
+        type: GraphNodeType.ADDRESS,
+        classes: 'addressNode',
+      },
+    ]);
     setEdges([]);
     loadedAddresses.current.clear();
     setSelectedNode({ id: currentAddress, label: currentAddress, type: GraphNodeType.ADDRESS });
@@ -156,6 +173,7 @@ export default function GraphView() {
       }
     };
   };
+
   const throttledExpand = throttle(expandAddress, EXPAND_ADDRESS_THROTTLE_MS);
 
   return (
@@ -186,7 +204,6 @@ export default function GraphView() {
               'text-valign': 'center',
               'text-outline-color': '#000',
               'text-outline-width': 1,
-              cursor: (ele: any) => (ele.data('type') === 'address' ? 'pointer' : 'default'),
             },
           },
           {
